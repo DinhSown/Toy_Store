@@ -1,0 +1,8 @@
+package com.toystore.enums;
+
+public enum PaymentMethod {
+    COD,            // Thanh toán khi nhận hàng
+    BANK_TRANSFER,  // Chuyển khoản ngân hàng
+    MOMO,           // Ví MoMo
+    VNPAY           // VNPay
+}

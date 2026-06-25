@@ -1,0 +1,29 @@
+spring:
+  profiles:
+    active: dev
+
+  # JPA / Hibernate
+  jpa:
+    open-in-view: false
+
+  # Jackson
+  jackson:
+    default-property-inclusion: non_null
+    serialization:
+      write-dates-as-timestamps: false
+
+# Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+  endpoint:
+    health:
+      show-details: when-authorized
+
+# Logging
+logging:
+  level:
+    com.toystore: DEBUG
+    org.springframework.security: INFO

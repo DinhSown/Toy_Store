@@ -9,7 +9,7 @@ Tài liệu này ghi nhận chi tiết tiến độ code theo từng tuần củ
 | Tuần | Nội dung công việc chính | Trạng thái | Ghi chú |
 | :--- | :--- | :---: | :--- |
 | **Tuần 1** | Khởi tạo dự án, JPA Entities, Database Migration, Global Infrastructure, DTOs & Mappers. | **Hoàn thành** | Đã test khởi động app & Flyway migration thành công. |
-| **Tuần 2** | CRUD Category & Product API (Không Auth). | *Chưa bắt đầu* | Dự kiến tuần sau. |
+| **Tuần 2** | CRUD Category & Product API (Không Auth). | **Đang thực hiện** | Hoàn thành Ngày 1 (Category DB + Service & Unit Tests). |
 | **Tuần 3** | Authentication & Security (JWT, Authorization). | *Chưa bắt đầu* | |
 | **Tuần 4** | Shopping Cart & Order API (User). | *Chưa bắt đầu* | |
 | **Tuần 5** | Order Management API (Admin). | *Chưa bắt đầu* | |
@@ -87,6 +87,19 @@ backend/src/main/java/com/toystore/
 
 ---
 
+## 📦 Chi Tiết Tuần 2 (Category & Product API — Không Auth)
+
+### 1. Các File Đã Code trong Ngày 1
+- **[CategoryRepository.java](file:///d:/Code/Toy_Store/backend/src/main/java/com/toystore/repository/CategoryRepository.java)**: Hỗ trợ tìm kiếm theo slug, kiểm tra trùng lặp tên/slug và lấy danh mục gốc (`parent IS NULL`).
+- **[CategoryService.java](file:///d:/Code/Toy_Store/backend/src/main/java/com/toystore/service/CategoryService.java)**: Định nghĩa các nghiệp vụ CRUD cho danh mục.
+- **[CategoryServiceImpl.java](file:///d:/Code/Toy_Store/backend/src/main/java/com/toystore/service/impl/CategoryServiceImpl.java)**: Triển khai logic nghiệp vụ:
+  - Ghép cấu trúc cây danh mục đệ quy và lọc các con cháu đang hoạt động (`mapToResponse`).
+  - Kiểm tra tránh chu kỳ lặp vòng khi chỉ định danh mục cha (`isDescendantOf`).
+  - Đệ quy hủy kích hoạt (soft delete) toàn bộ cây con cháu khi danh mục cha bị vô hiệu hóa (`deactivateCategoryAndChildren`).
+- **[CategoryServiceTest.java](file:///d:/Code/Toy_Store/backend/src/test/java/com/toystore/service/CategoryServiceTest.java)**: Viết 8 unit tests phủ sóng đầy đủ các tình huống nghiệp vụ trên.
+
+---
+
 ## 🛠️ Review Code & Phân Tích Thiết Kế
 
 ### 1. Tại sao dùng MapStruct thay vì ModelMapper hoặc map thủ công?
@@ -107,3 +120,14 @@ backend/src/main/java/com/toystore/
 ### 4. Xử lý Tương Thích Lombok trên JDK 25
 - Trong môi trường local của máy chủ chạy JDK 25.0.2 mới nhất, các phiên bản Lombok cũ sẽ gặp lỗi không thể khởi tạo compiler do cấu trúc nội bộ của class `TypeTag` trong JDK bị thay đổi.
 - Việc nâng cấp Lombok lên phiên bản `1.18.36` trong `pom.xml` giúp đảm bảo khả năng tương thích biên dịch lâu dài khi chạy trên các phiên bản Java LTS mới nhất (Java 21 và Java 25).
+
+### 5. Thiết Kế Tránh Vòng Lặp Tuần Hoàn (Cycle Prevention) của Danh Mục Cha-Con
+- **Vấn đề**: Khi cập nhật danh mục cha của danh mục $A$, nếu người dùng chọn danh mục $B$ (vốn là con hoặc cháu của $A$) làm cha mới của $A$, sẽ gây ra lỗi vòng lặp tuần hoàn trong database (đứt gãy cây danh mục và gây tràn bộ nhớ StackOverflow khi duyệt cây đệ quy).
+- **Review giải pháp**: 
+  - Trong `CategoryServiceImpl.updateCategory`, chúng tôi sử dụng thuật toán đệ quy ngược dòng `isDescendantOf(newParent, category)` để tìm kiếm từ danh mục cha mới ngược lên gốc. 
+  - Nếu phát hiện danh mục hiện tại là tổ tiên của danh mục cha mới, hệ thống ngay lập tức chặn lại và ném lỗi `BadRequestException`. Điều này giúp đảm bảo tính toàn vẹn của dữ liệu cây danh mục tuyệt đối ở mức nghiệp vụ.
+
+### 6. Cascade Soft Delete trên Cây Danh Mục
+- **Thiết kế**: Khi một danh mục bị ẩn (`isActive = false`), tất cả các danh mục con và cháu của nó cũng không được phép hiển thị trên giao diện của người dùng.
+- **Giải pháp**: Phương thức đệ quy `deactivateCategoryAndChildren` được kích hoạt để duyệt toàn bộ cây con cháu và tự động lưu trạng thái `isActive = false` xuống DB cho tất cả chúng trong cùng một transaction. Điều này giúp đồng bộ dữ liệu sạch sẽ mà không đòi hỏi frontend phải xử lý phức tạp.
+

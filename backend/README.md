@@ -285,125 +285,204 @@ Client Request
 
 ---
 
-## 🗺️ Roadmap
+## 🗺️ Roadmap Chi Tiết Từng Ngày (8 Tuần Backend)
 
-### Phase 1 — Khởi Tạo & Database `[Tuần 1]`
-
-- [ ] **1.1 — Setup Spring Boot Project**
-  - [ ] Tạo project từ Spring Initializr (Maven, Java 17+)
-  - [ ] Thêm dependencies: Spring Web, Data JPA, Security, MySQL, Lombok, Validation, Flyway
-  - [ ] Cấu hình `application.yml` + `application-dev.yml`
-  - [ ] Cấu hình CORS cho frontend
-  - [ ] Setup `.gitignore`
-
-- [ ] **1.2 — Database & Entity**
-  - [ ] Tạo MySQL database `toy_store`
-  - [ ] Viết Flyway migration scripts (V1__create_tables.sql, V2__seed_data.sql)
-  - [ ] Tạo JPA Entities: `User`, `Category`, `Product`, `Order`, `OrderItem`, `Review`
-  - [ ] Tạo Enums: `Role`, `OrderStatus`, `PaymentMethod`
-  - [ ] Tạo base entity (`BaseEntity` với id, createdAt, updatedAt)
-  - [ ] Tạo DTOs (request/response) cho mỗi entity
-  - [ ] Tạo Mapper (MapStruct hoặc thủ công)
-
-- [ ] **1.3 — Global Config**
-  - [ ] `ApiResponse<T>` wrapper class
-  - [ ] `GlobalExceptionHandler` (@ControllerAdvice)
-  - [ ] Custom exceptions (ResourceNotFoundException, BadRequestException, DuplicateResourceException)
-  - [ ] Pagination response DTO
+Dưới đây là kế hoạch phát triển chi tiết chia nhỏ theo từng ngày (từ Thứ 2 đến Thứ 6) để dễ dàng triển khai và kiểm thử.
 
 ---
 
-### Phase 2 — CRUD API (Không Auth) `[Tuần 2]`
-
-- [ ] **2.1 — Category API**
-  - [ ] `CategoryRepository` (Spring Data JPA)
-  - [ ] `CategoryService` + `CategoryServiceImpl`
-  - [ ] `CategoryController` — GET endpoints (public)
-  - [ ] `AdminCategoryController` — POST/PUT/DELETE (tạm thời không auth)
-  - [ ] ✅ Test với Postman
-
-- [ ] **2.2 — Product API**
-  - [ ] `ProductRepository` (custom queries: filter, search, featured)
-  - [ ] `ProductService` + `ProductServiceImpl`
-  - [ ] `ProductController` — GET endpoints (public, pageable)
-  - [ ] `AdminProductController` — CRUD (tạm thời không auth)
-  - [ ] Specification hoặc custom queries cho filter (category, brand, price range)
-  - [ ] ✅ Test với Postman
-
-- [ ] **2.3 — Review API**
-  - [ ] `ReviewRepository`
-  - [ ] `ReviewService` + `ReviewServiceImpl`
-  - [ ] `ReviewController` — GET (public), POST/PUT/DELETE (tạm không auth)
-  - [ ] ✅ Test với Postman
+### 📦 Tuần 1: Khởi Tạo & Cơ Sở Hạ Tầng (Đã Hoàn Thành)
+* **Ngày 1**: Khởi tạo project từ Spring Initializr, thiết lập Maven `pom.xml`, các file cấu hình `application.yml` và `application-dev.yml` (bao gồm hồ sơ kết nối DB, JWT và Cloudinary).
+* **Ngày 2**: Viết migration script `V1__create_tables.sql` để tạo schema cơ sở dữ liệu. Xây dựng các lớp JPA Entities tương ứng (`User`, `Category`, `Product`, `Order`, `OrderItem`, `Review`) kế thừa từ `BaseEntity` (JPA Auditing).
+* **Ngày 3**: Triển khai cơ sở hạ tầng phản hồi lỗi: Lớp bọc response chuẩn `ApiResponse<T>`, các ngoại lệ tùy chỉnh (`ResourceNotFoundException`, `BadRequestException`, `DuplicateResourceException`) và `GlobalExceptionHandler` dùng `@ControllerAdvice`.
+* **Ngày 4**: Xây dựng toàn bộ các lớp DTO (Request/Response) cho tất cả entities kèm annotation ràng buộc validation dữ liệu đầu vào.
+* **Ngày 5**: Viết tiện ích `SlugUtil` để tạo URL SEO-friendly. Triển khai các MapStruct mappers (bao gồm xử lý deserialize JSON của ảnh phụ bằng Jackson và tính toán động rating trung bình của sản phẩm). Khởi động ứng dụng, tự động chạy Flyway tạo bảng trên MySQL local và kết thúc Tuần 1.
 
 ---
 
-### Phase 3 — Authentication & Authorization `[Tuần 3]`
+### 📦 Tuần 2: Category & Product API (Không Auth)
+> **Mục tiêu**: Có thể thực hiện CRUD danh mục và sản phẩm trên Postman thông qua các API public tạm thời.
 
-- [ ] **3.1 — JWT Infrastructure**
-  - [ ] Thêm dependency `jjwt` (io.jsonwebtoken)
-  - [ ] `JwtTokenProvider` — generate, validate, extract claims
-  - [ ] `JwtAuthFilter` extends `OncePerRequestFilter`
-  - [ ] `CustomUserDetailsService` implements `UserDetailsService`
-
-- [ ] **3.2 — Auth API**
-  - [ ] `AuthController` — register, login, refresh, me
-  - [ ] `AuthService` — register (BCrypt), login (authenticate + generate JWT)
-  - [ ] Response: `{ token, refreshToken, tokenType, expiresIn }`
-
-- [ ] **3.3 — Security Config**
-  - [ ] `SecurityConfig` — SecurityFilterChain
-  - [ ] Public endpoints: GET products, categories, reviews, auth/*
-  - [ ] USER endpoints: orders/*, reviews POST/PUT/DELETE
-  - [ ] ADMIN endpoints: /api/admin/**
-  - [ ] CORS config cho frontend origin
-  - [ ] ✅ Test auth flow đầy đủ với Postman
-
----
-
-### Phase 4 — Order API & Business Logic `[Tuần 4]`
-
-- [ ] **4.1 — Order API**
-  - [ ] `OrderController` — CRUD cho user
-  - [ ] `AdminOrderController` — quản lý đơn hàng
-  - [ ] `OrderService` — tạo đơn hàng (validate stock, tính tổng, tạo order items)
-  - [ ] `OrderStatus` transitions validation (PENDING → CONFIRMED → SHIPPING → ...)
-  - [ ] Auto-generate order code (e.g., TS-20260625-0001)
-  - [ ] ✅ Test đầy đủ flow: tạo đơn → cập nhật status → hủy đơn
-
-- [ ] **4.2 — User Profile API**
-  - [ ] `GET /api/auth/me` — thông tin user
-  - [ ] `PUT /api/auth/profile` — cập nhật profile
-  - [ ] `PUT /api/auth/change-password` — đổi mật khẩu
-  - [ ] ✅ Test với Postman
+* **Ngày 1 — CRUD Danh mục (Phần Service & DB)**:
+  - [x] Tạo `CategoryRepository` kế thừa `JpaRepository`.
+  - [x] Xây dựng interface `CategoryService` và lớp triển khai `CategoryServiceImpl` hỗ trợ các hàm: lấy tất cả danh mục (bao gồm phân cấp cha-con), lấy chi tiết danh mục theo ID/slug, thêm mới danh mục (sử dụng `SlugUtil` tự động sinh slug), cập nhật danh mục và thay đổi trạng thái hoạt động (soft delete).
+* **Ngày 2 — CRUD Danh mục (Phần Controller)**:
+  - [ ] Tạo `CategoryController` cung cấp các API public:
+    - `GET /api/categories` — Lấy danh mục gốc và các danh mục con lồng nhau.
+    - `GET /api/categories/{id}` — Lấy chi tiết danh mục.
+    - `GET /api/categories/slug/{slug}` — Lấy danh mục theo slug.
+  - [ ] Tạo `AdminCategoryController` (tạm public) chứa các phương thức POST, PUT, DELETE danh mục.
+  - [ ] Kiểm thử toàn bộ API danh mục trên Postman.
+* **Ngày 3 — Product Repository & Service**:
+  - [ ] Tạo `ProductRepository` với các truy vấn tùy chỉnh để lọc sản phẩm theo categoryId, khoảng giá (minPrice, maxPrice) và brand.
+  - [ ] Xây dựng interface `ProductService` và triển khai `ProductServiceImpl` với các phương thức nghiệp vụ: lấy sản phẩm phân trang, tìm kiếm sản phẩm theo từ khóa, lấy danh sách sản phẩm nổi bật (`isFeatured = true`), tạo mới sản phẩm (auto-generate slug và gán category), cập nhật sản phẩm và soft delete (`isActive = false`).
+* **Ngày 4 — Product Controller (Public)**:
+  - [ ] Tạo `ProductController` cung cấp các API public:
+    - `GET /api/products` (hỗ trợ phân trang: `?page=0&size=12&sort=createdAt,desc` và lọc: `?categoryId=&brand=&minPrice=&maxPrice=`).
+    - `GET /api/products/{id}`.
+    - `GET /api/products/slug/{slug}`.
+    - `GET /api/products/search?keyword=` (tìm kiếm full-text hoặc like query).
+    - `GET /api/products/featured` (lấy sản phẩm nổi bật).
+* **Ngày 5 — Admin Product Controller & Seed Data**:
+  - [ ] Tạo `AdminProductController` (tạm public) chứa các phương thức POST, PUT, DELETE sản phẩm.
+  - [ ] Viết file migration SQL `V2__seed_data.sql` chứa dữ liệu mẫu của 5 danh mục và ít nhất 20 sản phẩm đa dạng mẫu mã.
+  - [ ] Khởi động ứng dụng để Flyway tự động nạp dữ liệu seed. Kiểm thử toàn bộ API sản phẩm trên Postman đảm bảo phân trang và bộ lọc chạy đúng kết quả.
 
 ---
 
-### Phase 5 — Upload, Admin & Testing `[Tuần 5]`
+### 📦 Tuần 3: Review API & Cơ sở hạ tầng JWT Security
+> **Mục tiêu**: Hoàn thành API đánh giá sản phẩm và dựng sẵn hệ thống JWT để chuẩn bị tích hợp bảo mật Spring Security.
 
-- [ ] **5.1 — File Upload (Cloudinary)**
-  - [ ] Tích hợp Cloudinary SDK
-  - [ ] `FileUploadService` — upload, delete image
-  - [ ] `UploadController` — endpoints upload 1 ảnh / nhiều ảnh
-  - [ ] Validate file type (jpg, png, webp) & size (max 5MB)
-  - [ ] ✅ Test upload/delete
+* **Ngày 1 — Review Service**:
+  - [ ] Tạo `ReviewRepository` kèm ràng buộc để kiểm tra sự tồn tại của review theo `userId` và `productId`.
+  - [ ] Thiết lập interface `ReviewService` và triển khai `ReviewServiceImpl` thực hiện: lấy đánh giá của một sản phẩm, thêm đánh giá (validate rating phải từ 1-5, kiểm tra user đã mua hàng chưa - tạm thời bỏ qua bước mua hàng, kiểm tra user đã đánh giá sản phẩm này chưa để ném `DuplicateResourceException`), cập nhật đánh giá, và xóa đánh giá.
+* **Ngày 2 — Review Controller**:
+  - [ ] Tạo `ReviewController` cung cấp các API:
+    - `GET /api/reviews/product/{productId}` (public) — Lấy tất cả đánh giá của sản phẩm.
+    - Các API POST, PUT, DELETE đánh giá (tạm thời public).
+  - [ ] Kiểm thử luồng đánh giá sản phẩm trên Postman.
+* **Ngày 3 — Thư viện JWT & JwtTokenProvider**:
+  - [ ] Thêm thư viện `jjwt` vào `pom.xml`.
+  - [ ] Tạo cấu hình JWT secrets và thời hạn hết hạn token trong `application-dev.yml`.
+  - [ ] Tạo lớp `JwtTokenProvider` chứa logic tạo JWT (chứa email, role và claims), giải mã JWT, kiểm tra thời hạn token và lấy email người dùng từ token.
+* **Ngày 4 — User Details & UserDetailsService**:
+  - [ ] Cập nhật lớp `User` entity kế thừa `UserDetails` của Spring Security (hoặc tạo lớp `CustomUserDetails` bao ngoài User entity).
+  - [ ] Tạo lớp `CustomUserDetailsService` kế thừa từ `UserDetailsService` để tìm kiếm user trong database theo email và trả về đối tượng `UserDetails`.
+* **Ngày 5 — Bộ lọc bảo mật JwtAuthFilter**:
+  - [ ] Tạo lớp `JwtAuthFilter` kế thừa từ `OncePerRequestFilter`. Lớp này sẽ chặn các request, trích xuất JWT từ Authorization header (`Bearer <token>`), kiểm tra tính hợp lệ và cấu hình thông tin xác thực vào `SecurityContextHolder`.
+  - [ ] Khởi chạy thử ứng dụng đảm bảo bộ lọc JWT được load đúng và không phá vỡ các API hiện có.
 
-- [ ] **5.2 — Admin Dashboard API**
-  - [ ] `GET /api/admin/stats/dashboard` — tổng sản phẩm, đơn hàng, users, doanh thu
-  - [ ] Admin CRUD cho users (list, activate/deactivate)
-  - [ ] ✅ Test với Postman
+---
 
-- [ ] **5.3 — Unit & Integration Tests**
-  - [ ] Unit test cho Services (JUnit 5 + Mockito)
-  - [ ] Integration test cho Controllers (MockMvc + @SpringBootTest)
-  - [ ] Test JWT auth flow
-  - [ ] Test error cases & validation
-  - [ ] `mvn test` — tất cả test phải pass ✅
+### 📦 Tuần 4: Đăng Ký, Đăng Nhập & Phân Quyền (Spring Security)
+> **Mục tiêu**: Người dùng có thể đăng ký, đăng nhập để nhận token. Các Admin API được bảo vệ nghiêm ngặt.
 
-- [ ] **5.4 — API Documentation**
-  - [ ] Thêm SpringDoc OpenAPI (Swagger UI)
-  - [ ] Annotate controllers với `@Operation`, `@ApiResponse`
-  - [ ] Swagger UI tại `http://localhost:8080/swagger-ui.html`
+* **Ngày 1 — Authentication Service**:
+  - [ ] Tạo lớp mã hóa mật khẩu `BCryptPasswordEncoder` bean.
+  - [ ] Triển khai `AuthService` với các nghiệp vụ:
+    - `register()`: Kiểm tra email trùng lặp, mã hóa mật khẩu bằng BCrypt, lưu User mới với role mặc định là `ROLE_USER`.
+    - `login()`: Xác thực thông tin đăng nhập bằng Spring Security `AuthenticationManager`, tạo cặp Access Token và Refresh Token trả về client thông qua `AuthResponse`.
+* **Ngày 2 — Authentication Controller & Endpoint /me**:
+  - [ ] Tạo `AuthController` với các API:
+    - `POST /api/auth/register` (public)
+    - `POST /api/auth/login` (public)
+    - `POST /api/auth/refresh` (public) — cấp lại Access Token từ Refresh Token.
+    - `GET /api/auth/me` (yêu cầu đăng nhập) — trả về thông tin của User đang kết nối.
+  - [ ] Viết API test thử luồng đăng ký/đăng nhập trên Postman.
+* **Ngày 3 — Cấu hình Spring Security Config**:
+  - [ ] Tạo lớp cấu hình `SecurityConfig` và kích hoạt chế độ `@EnableWebSecurity`.
+  - [ ] Cấu hình `SecurityFilterChain` quản lý các quy định về xác thực: tắt cơ chế CSRF, cấu hình Session sang chế độ `STATELESS` (không lưu trạng thái session).
+  - [ ] Cấu hình cors và tích hợp `JwtAuthFilter` đứng trước lớp `UsernamePasswordAuthenticationFilter`.
+* **Ngày 4 — Thiết lập phân quyền chi tiết (RBAC)**:
+  - [ ] Cấu hình chi tiết phân quyền trong `SecurityFilterChain`:
+    - Cho phép truy cập không cần token (Permit All) đối với: các API GET của sản phẩm, danh mục, đánh giá và các API đăng nhập/đăng ký.
+    - Yêu cầu quyền `ROLE_USER` hoặc `ROLE_ADMIN` đối với các API liên quan đến giỏ hàng, viết review, tạo đơn hàng.
+    - Yêu cầu quyền `ROLE_ADMIN` đối với tất cả các API quản trị bắt đầu bằng `/api/admin/**`.
+* **Ngày 5 — Kiểm thử luồng bảo mật**:
+  - [ ] Test đăng nhập lấy token.
+  - [ ] Gọi các API yêu cầu xác thực bằng token hợp lệ -> Trả về dữ liệu thành công (200).
+  - [ ] Gọi API yêu cầu xác thực không có token hoặc token sai -> Trả về lỗi Unauthorized (401).
+  - [ ] Sử dụng token của User thường để truy cập API admin -> Trả về lỗi Forbidden (403).
+
+---
+
+### 📦 Tuần 5: Order API & Luồng Đặt Hàng
+> **Mục tiêu**: Khách hàng có thể tạo đơn hàng thành công, admin có thể quản lý trạng thái của tất cả đơn hàng.
+
+* **Ngày 1 — Thiết kế Repositories & Xương cá Service**:
+  - [ ] Tạo `OrderRepository` và `OrderItemRepository`.
+  - [ ] Định nghĩa interface `OrderService` và các lớp Request/Response tương ứng.
+* **Ngày 2 — Tạo Đơn hàng & Xử lý Kho hàng (Giao dịch chính)**:
+  - [ ] Triển khai phương thức `createOrder()` trong `OrderServiceImpl` chạy trong một `@Transactional`:
+    - Duyệt qua từng sản phẩm trong giỏ hàng gửi lên, kiểm tra xem số lượng trong kho có đủ không (nếu không đủ ném lỗi `BadRequestException`).
+    - Trừ số lượng kho của sản phẩm tương ứng.
+    - Tính tổng tiền đơn hàng, tạo các bản ghi `OrderItem` lưu snapshot của sản phẩm (tên, giá hiện tại, ảnh chính) tại thời điểm mua.
+    - Tạo mã đơn hàng duy nhất định dạng: `TS-YYYYMMDD-XXXX` (trong đó YYYYMMDD là ngày hiện tại, XXXX là chuỗi ngẫu nhiên hoặc số tăng dần).
+* **Ngày 3 — Lịch sử đơn hàng & Hủy đơn hàng (User)**:
+  - [ ] Triển khai phương thức `getMyOrders()` lọc các đơn hàng của user đang đăng nhập hiện tại từ Security Context.
+  - [ ] Triển khai phương thức `getOrderById()` lấy chi tiết đơn hàng (thêm validate chỉ cho phép chính chủ đơn hàng hoặc admin xem).
+  - [ ] Triển khai phương thức `cancelOrder()` cho phép khách hàng hủy đơn hàng (chỉ cho phép hủy khi đơn hàng ở trạng thái `PENDING`, nếu khác PENDING ném lỗi `BadRequestException`).
+* **Ngày 4 — Cập nhật trạng thái đơn hàng (Admin)**:
+  - [ ] Triển khai phương thức `updateOrderStatus()` dành cho Admin để thay đổi trạng thái đơn hàng.
+  - [ ] Thiết lập bộ kiểm tra logic chuyển đổi trạng thái hợp lý (ví dụ: không được chuyển từ `PENDING` thẳng sang `DELIVERED`, không được cập nhật đơn hàng đã hủy `CANCELLED`).
+* **Ngày 5 — Controllers & Kiểm thử Luồng đặt hàng**:
+  - [ ] Tạo `OrderController` cho khách hàng (`POST /api/orders`, `GET /api/orders/my-orders`, `PUT /api/orders/{id}/cancel`).
+  - [ ] Tạo `AdminOrderController` cho quản trị viên (`GET /api/admin/orders`, `PUT /api/admin/orders/{id}/status`).
+  - [ ] Kiểm thử toàn bộ chu trình đặt hàng trên Postman: Tạo đơn hàng -> Admin xác nhận -> Giao hàng thành công. Kiểm tra xem số lượng kho của sản phẩm có tự động trừ đi chính xác hay không.
+
+---
+
+### 📦 Tuần 6: Hồ Sơ Người Dùng & File Upload (Cloudinary)
+> **Mục tiêu**: Người dùng tự quản lý thông tin tài khoản và Admin có thể đăng ảnh sản phẩm trực tiếp từ máy lên kho lưu trữ đám mây.
+
+* **Ngày 1 — User Profile API**:
+  - [ ] Triển khai API `PUT /api/auth/profile` cho phép cập nhật thông tin cá nhân (Họ tên, số điện thoại, ảnh đại diện).
+  - [ ] Triển khai API `PUT /api/auth/change-password` xác thực mật khẩu cũ và mã hóa mật khẩu mới cập nhật vào DB.
+* **Ngày 2 — Tích hợp SDK Cloudinary**:
+  - [ ] Cấu hình các thông số API Key, API Secret và Cloud Name của Cloudinary vào `application-dev.yml`.
+  - [ ] Tạo lớp cấu hình `CloudinaryConfig` khởi tạo đối tượng `Cloudinary` bean làm việc với API của hãng.
+* **Ngày 3 — File Upload Service**:
+  - [ ] Thiết lập interface `FileUploadService` và triển khai `FileUploadServiceImpl` chứa các chức năng:
+    - Upload một file ảnh lên thư mục định sẵn trên Cloudinary và trả về URL ảnh tuyệt đối.
+    - Upload danh sách nhiều file ảnh (dành cho bộ sưu tập ảnh phụ của sản phẩm).
+    - Xóa ảnh cũ trên Cloudinary thông qua Public ID khi cập nhật hoặc xóa sản phẩm.
+* **Ngày 4 — Upload Controller**:
+  - [ ] Tạo `UploadController` (yêu cầu quyền Admin) cung cấp các endpoint:
+    - `POST /api/upload/image` (tải lên 1 ảnh).
+    - `POST /api/upload/images` (tải lên nhiều ảnh đồng thời).
+    - `DELETE /api/upload/image` (xóa ảnh).
+  - [ ] Thêm validation kiểm tra định dạng file (chỉ nhận ảnh: `.jpg`, `.png`, `.webp`) và giới hạn kích thước file tải lên tối đa là 5MB để tránh quá tải server.
+* **Ngày 5 — Kiểm thử luồng upload ảnh**:
+  - [ ] Test upload ảnh bằng Postman (sử dụng Form-data).
+  - [ ] Sử dụng đường dẫn ảnh nhận được từ Cloudinary để làm trường `imageUrl` tạo sản phẩm mới thông qua API -> Xác nhận ảnh hiển thị đúng trên trình duyệt.
+
+---
+
+### 📦 Tuần 7: Thống Kê Admin Dashboard & Tài Liệu API Swagger
+> **Mục tiêu**: Cung cấp API thống kê nhanh cho Admin và tích hợp giao diện tương tác API Swagger trực quan.
+
+* **Ngày 1 — Quản lý Tài khoản Khách hàng (Admin)**:
+  - [ ] Tạo `AdminUserController` cung cấp API lấy danh sách toàn bộ người dùng, tìm kiếm theo tên/email và API bật/tắt trạng thái hoạt động của tài khoản (`isActive = true/false`).
+* **Ngày 2 — Thống kê số liệu Dashboard (Admin)**:
+  - [ ] Viết các câu lệnh SQL Custom Queries trong Repository để lấy số liệu:
+    - Tổng doanh thu tháng hiện tại so với tháng trước.
+    - Tổng số lượng đơn hàng, tổng số sản phẩm đã bán ra.
+    - Số lượng người dùng mới đăng ký trong tháng.
+  - [ ] Tạo `AdminDashboardController` cung cấp API `GET /api/admin/stats/dashboard` để trả về các số liệu thống kê tổng hợp trên.
+* **Ngày 3 — Cấu hình Swagger OpenAPI**:
+  - [ ] Tích hợp thư viện `springdoc-openapi-starter-webmvc-ui` vào dự án.
+  - [ ] Tạo lớp `OpenApiConfig` để mô tả dự án và cấu hình cơ chế bảo mật JWT Security Scheme trên giao diện Swagger UI để có thể dán JWT Token vào test trực tiếp.
+* **Ngày 4 — Viết tài liệu mô tả API**:
+  - [ ] Thêm các annotation `@Tag` mô tả phân nhóm chức năng cho từng Controller.
+  - [ ] Sử dụng `@Operation` và `@ApiResponse` để chú thích cụ thể chức năng của từng endpoint, tham số đầu vào và kiểu dữ liệu trả về của DTO.
+* **Ngày 5 — Xác minh giao diện Swagger**:
+  - [ ] Truy cập đường dẫn `http://localhost:8080/swagger-ui.html` trên trình duyệt.
+  - [ ] Thực hiện đăng nhập lấy token từ API Auth, dán vào nút "Authorize" trên Swagger và thử gọi các API của Admin để đảm bảo tài liệu API tương tác tốt 100%.
+
+---
+
+### 📦 Tuần 8: Viết Kiểm Thử (Testing) & Nghiệm Thu Backend
+> **Mục tiêu**: Đảm bảo toàn bộ nghiệp vụ hoạt động ổn định thông qua kiểm thử tự động đạt độ phủ cao, hoàn thiện source code.
+
+* **Ngày 1 — Unit Test cho các Services (Product & Category)**:
+  - [ ] Tạo các lớp kiểm thử `ProductServiceTest` và `CategoryServiceTest` sử dụng JUnit 5 và Mockito.
+  - [ ] Viết mock kiểm thử luồng CRUD sản phẩm, kiểm thử tính đúng đắn của bộ lọc và tìm kiếm sản phẩm.
+* **Ngày 2 — Unit Test cho các Services (Order, Auth & Review)**:
+  - [ ] Viết kiểm thử logic đặt hàng `OrderServiceTest` (giả lập các trường hợp hết hàng, chuyển đổi trạng thái đơn hợp lệ/không hợp lệ).
+  - [ ] Viết kiểm thử `AuthServiceTest` (giả lập đăng ký trùng email, đăng nhập sai mật khẩu) và `ReviewServiceTest`.
+* **Ngày 3 — Integration Test cho Controllers (Sản phẩm & Auth)**:
+  - [ ] Viết các kiểm thử tích hợp sử dụng `MockMvc` và `@SpringBootTest` kết hợp cơ sở dữ liệu in-memory H2.
+  - [ ] Kiểm thử luồng đăng ký -> đăng nhập -> lấy token -> dùng token lấy danh sách sản phẩm.
+* **Ngày 4 — Integration Test cho Orders & Error Cases**:
+  - [ ] Viết các kiểm thử tích hợp kiểm tra phân quyền đầu vào (gọi API không có token, token của User thường truy cập Admin Endpoint).
+  - [ ] Kiểm thử xử lý lỗi ngoại lệ của Global Exception Handler khi truyền sai định dạng dữ liệu đầu vào.
+* **Ngày 5 — Nghiệm thu và Làm sạch Source Code**:
+  - [ ] Chạy câu lệnh `mvn clean test` trên terminal của dự án để kiểm tra toàn bộ các test case đảm bảo vượt qua 100%.
+  - [ ] Rà soát lại code, xóa bỏ các import dư thừa, dòng log test hoặc code thừa không sử dụng.
+  - [ ] Viết thêm Javadoc giải thích các phương thức phức tạp trong service và sẵn sàng bàn giao API hoàn chỉnh cho giai đoạn làm Frontend.
+
+---
+
 
 ---
 

@@ -35,5 +35,8 @@ D:\Code\Toy_Store\backend\src\main\java\com\toystore\mapper\OrderMapper.java
 D:\Code\Toy_Store\backend\src\main\java\com\toystore\mapper\ProductMapper.java
 D:\Code\Toy_Store\backend\src\main\java\com\toystore\mapper\ReviewMapper.java
 D:\Code\Toy_Store\backend\src\main\java\com\toystore\mapper\UserMapper.java
+D:\Code\Toy_Store\backend\src\main\java\com\toystore\repository\CategoryRepository.java
+D:\Code\Toy_Store\backend\src\main\java\com\toystore\service\CategoryService.java
+D:\Code\Toy_Store\backend\src\main\java\com\toystore\service\impl\CategoryServiceImpl.java
 D:\Code\Toy_Store\backend\src\main\java\com\toystore\ToyStoreApplication.java
 D:\Code\Toy_Store\backend\src\main\java\com\toystore\util\SlugUtil.java

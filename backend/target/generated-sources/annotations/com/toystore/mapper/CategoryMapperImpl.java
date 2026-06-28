@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-06-25T13:53:37+0700",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.11 (Oracle Corporation)"
+    date = "2026-06-28T15:37:12+0700",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 25.0.2 (Oracle Corporation)"
 )
 @Component
 public class CategoryMapperImpl implements CategoryMapper {
@@ -26,14 +26,14 @@ public class CategoryMapperImpl implements CategoryMapper {
 
         categoryResponse.parentId( categoryParentId( category ) );
         categoryResponse.parentName( categoryParentName( category ) );
-        categoryResponse.children( categoryListToCategoryResponseList( category.getChildren() ) );
-        categoryResponse.createdAt( category.getCreatedAt() );
-        categoryResponse.description( category.getDescription() );
         categoryResponse.id( category.getId() );
-        categoryResponse.imageUrl( category.getImageUrl() );
-        categoryResponse.isActive( category.getIsActive() );
         categoryResponse.name( category.getName() );
         categoryResponse.slug( category.getSlug() );
+        categoryResponse.description( category.getDescription() );
+        categoryResponse.imageUrl( category.getImageUrl() );
+        categoryResponse.children( categoryListToCategoryResponseList( category.getChildren() ) );
+        categoryResponse.isActive( category.getIsActive() );
+        categoryResponse.createdAt( category.getCreatedAt() );
         categoryResponse.updatedAt( category.getUpdatedAt() );
 
         return categoryResponse.build();
@@ -47,10 +47,10 @@ public class CategoryMapperImpl implements CategoryMapper {
 
         Category.CategoryBuilder category = Category.builder();
 
+        category.name( request.getName() );
         category.description( request.getDescription() );
         category.imageUrl( request.getImageUrl() );
         category.isActive( request.getIsActive() );
-        category.name( request.getName() );
 
         return category.build();
     }

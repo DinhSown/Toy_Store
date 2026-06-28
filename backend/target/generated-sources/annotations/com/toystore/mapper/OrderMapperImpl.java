@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-06-25T13:53:37+0700",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.11 (Oracle Corporation)"
+    date = "2026-06-28T15:37:12+0700",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 25.0.2 (Oracle Corporation)"
 )
 @Component
 public class OrderMapperImpl implements OrderMapper {
@@ -32,17 +32,17 @@ public class OrderMapperImpl implements OrderMapper {
 
         orderResponse.userId( orderUserId( order ) );
         orderResponse.userFullName( orderUserFullName( order ) );
-        orderResponse.createdAt( order.getCreatedAt() );
         orderResponse.id( order.getId() );
-        orderResponse.items( orderItemListToOrderItemResponseList( order.getItems() ) );
-        orderResponse.note( order.getNote() );
         orderResponse.orderCode( order.getOrderCode() );
-        orderResponse.paymentMethod( order.getPaymentMethod() );
-        orderResponse.shippingAddress( order.getShippingAddress() );
-        orderResponse.shippingName( order.getShippingName() );
-        orderResponse.shippingPhone( order.getShippingPhone() );
         orderResponse.status( order.getStatus() );
         orderResponse.totalAmount( order.getTotalAmount() );
+        orderResponse.shippingName( order.getShippingName() );
+        orderResponse.shippingPhone( order.getShippingPhone() );
+        orderResponse.shippingAddress( order.getShippingAddress() );
+        orderResponse.note( order.getNote() );
+        orderResponse.paymentMethod( order.getPaymentMethod() );
+        orderResponse.items( orderItemListToOrderItemResponseList( order.getItems() ) );
+        orderResponse.createdAt( order.getCreatedAt() );
         orderResponse.updatedAt( order.getUpdatedAt() );
 
         return orderResponse.build();

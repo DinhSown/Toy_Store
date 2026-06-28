@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserUpdateRequest {
+public class UserRequest {
 
     @NotBlank(message = "Họ tên không được để trống")
     private String fullName;

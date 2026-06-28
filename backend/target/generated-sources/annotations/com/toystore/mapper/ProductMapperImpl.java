@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-06-25T13:53:37+0700",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.11 (Oracle Corporation)"
+    date = "2026-06-28T15:37:11+0700",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 25.0.2 (Oracle Corporation)"
 )
 @Component
 public class ProductMapperImpl extends ProductMapper {
@@ -28,18 +28,18 @@ public class ProductMapperImpl extends ProductMapper {
         productResponse.images( jsonToList( product.getImages() ) );
         productResponse.averageRating( calculateAverageRating( product ) );
         productResponse.reviewCount( calculateReviewCount( product ) );
-        productResponse.brand( product.getBrand() );
-        productResponse.createdAt( product.getCreatedAt() );
-        productResponse.description( product.getDescription() );
         productResponse.id( product.getId() );
+        productResponse.name( product.getName() );
+        productResponse.slug( product.getSlug() );
+        productResponse.description( product.getDescription() );
+        productResponse.price( product.getPrice() );
+        productResponse.salePrice( product.getSalePrice() );
+        productResponse.stock( product.getStock() );
+        productResponse.brand( product.getBrand() );
         productResponse.imageUrl( product.getImageUrl() );
         productResponse.isActive( product.getIsActive() );
         productResponse.isFeatured( product.getIsFeatured() );
-        productResponse.name( product.getName() );
-        productResponse.price( product.getPrice() );
-        productResponse.salePrice( product.getSalePrice() );
-        productResponse.slug( product.getSlug() );
-        productResponse.stock( product.getStock() );
+        productResponse.createdAt( product.getCreatedAt() );
         productResponse.updatedAt( product.getUpdatedAt() );
 
         productResponse.effectivePrice( product.getEffectivePrice() );
@@ -56,15 +56,15 @@ public class ProductMapperImpl extends ProductMapper {
         Product.ProductBuilder product = Product.builder();
 
         product.images( listToJson( request.getImages() ) );
-        product.brand( request.getBrand() );
-        product.description( request.getDescription() );
-        product.imageUrl( request.getImageUrl() );
-        product.isActive( request.getIsActive() );
-        product.isFeatured( request.getIsFeatured() );
         product.name( request.getName() );
+        product.description( request.getDescription() );
         product.price( request.getPrice() );
         product.salePrice( request.getSalePrice() );
         product.stock( request.getStock() );
+        product.brand( request.getBrand() );
+        product.imageUrl( request.getImageUrl() );
+        product.isActive( request.getIsActive() );
+        product.isFeatured( request.getIsFeatured() );
 
         return product.build();
     }

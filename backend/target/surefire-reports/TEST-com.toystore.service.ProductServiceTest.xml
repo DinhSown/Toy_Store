@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.toystore.service.CategoryServiceTest" time="1.24" tests="8" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.toystore.service.ProductServiceTest" time="0.241" tests="14" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="25"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -59,18 +59,18 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="69.0"/>
   </properties>
-  <testcase name="getAllCategories_ShouldReturnRootCategoriesWithChildren" classname="com.toystore.service.CategoryServiceTest" time="1.13">
-    <system-err><![CDATA[WARNING: A Java agent has been loaded dynamically (C:\Users\vidin\.m2\repository\net\bytebuddy\byte-buddy-agent\1.14.16\byte-buddy-agent-1.14.16.jar)
-WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
-WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
-WARNING: Dynamic loading of agents will be disallowed by default in a future release
-]]></system-err>
-  </testcase>
-  <testcase name="createCategory_WhenDuplicateName_ShouldThrowException" classname="com.toystore.service.CategoryServiceTest" time="0.005"/>
-  <testcase name="getCategoryById_WhenNotFound_ShouldThrowException" classname="com.toystore.service.CategoryServiceTest" time="0.005"/>
-  <testcase name="getCategoryById_WhenFound_ShouldReturnResponse" classname="com.toystore.service.CategoryServiceTest" time="0.002"/>
-  <testcase name="updateCategory_WhenDescendantCycle_ShouldThrowException" classname="com.toystore.service.CategoryServiceTest" time="0.009"/>
-  <testcase name="updateCategory_WhenSelfParentCycle_ShouldThrowException" classname="com.toystore.service.CategoryServiceTest" time="0.002"/>
-  <testcase name="createCategory_WhenValid_ShouldSaveAndReturnResponse" classname="com.toystore.service.CategoryServiceTest" time="0.004"/>
-  <testcase name="deleteCategory_ShouldCascadeDeactivate" classname="com.toystore.service.CategoryServiceTest" time="0.003"/>
+  <testcase name="deleteProduct_ShouldSoftDelete" classname="com.toystore.service.ProductServiceTest" time="0.192"/>
+  <testcase name="getProductById_WhenNotFound_ShouldThrowException" classname="com.toystore.service.ProductServiceTest" time="0.003"/>
+  <testcase name="getProductBySlug_WhenFoundAndActive_ShouldReturnResponse" classname="com.toystore.service.ProductServiceTest" time="0.003"/>
+  <testcase name="getFeaturedProducts_ShouldReturnList" classname="com.toystore.service.ProductServiceTest" time="0.007"/>
+  <testcase name="getProductBySlug_WhenNotFound_ShouldThrowException" classname="com.toystore.service.ProductServiceTest" time="0.002"/>
+  <testcase name="searchProducts_WhenKeywordIsEmpty_ShouldReturnEmptyPage" classname="com.toystore.service.ProductServiceTest" time="0.003"/>
+  <testcase name="createProduct_WhenSalePriceHigherThanPrice_ShouldThrowException" classname="com.toystore.service.ProductServiceTest" time="0.003"/>
+  <testcase name="updateProduct_WhenValid_ShouldUpdateAndReturnResponse" classname="com.toystore.service.ProductServiceTest" time="0.004"/>
+  <testcase name="getAllProducts_WithInvalidCategory_ShouldThrowException" classname="com.toystore.service.ProductServiceTest" time="0.001"/>
+  <testcase name="searchProducts_WhenKeywordValid_ShouldReturnResults" classname="com.toystore.service.ProductServiceTest" time="0.002"/>
+  <testcase name="createProduct_WhenDuplicateName_ShouldThrowException" classname="com.toystore.service.ProductServiceTest" time="0.002"/>
+  <testcase name="getProductById_WhenFound_ShouldReturnResponse" classname="com.toystore.service.ProductServiceTest" time="0.002"/>
+  <testcase name="createProduct_WhenValid_ShouldSaveAndReturnResponse" classname="com.toystore.service.ProductServiceTest" time="0.003"/>
+  <testcase name="getAllProducts_WithCategory_ShouldResolveDescendantsAndFilter" classname="com.toystore.service.ProductServiceTest" time="0.004"/>
 </testsuite>

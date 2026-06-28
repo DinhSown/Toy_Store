@@ -9,7 +9,7 @@ Tài liệu này ghi nhận chi tiết tiến độ code theo từng tuần củ
 | Tuần | Nội dung công việc chính | Trạng thái | Ghi chú |
 | :--- | :--- | :---: | :--- |
 | **Tuần 1** | Khởi tạo dự án, JPA Entities, Database Migration, Global Infrastructure, DTOs & Mappers. | **Hoàn thành** | Đã test khởi động app & Flyway migration thành công. |
-| **Tuần 2** | CRUD Category & Product API (Không Auth). | **Đang thực hiện** | Hoàn thành Ngày 1 (Category DB + Service & Unit Tests). |
+| **Tuần 2** | CRUD Category & Product API (Không Auth). | **Đang thực hiện** | Hoàn thành Ngày 1, 2, 3 (Category Service + Controller & Product Repository + Service + Unit Tests). |
 | **Tuần 3** | Authentication & Security (JWT, Authorization). | *Chưa bắt đầu* | |
 | **Tuần 4** | Shopping Cart & Order API (User). | *Chưa bắt đầu* | |
 | **Tuần 5** | Order Management API (Admin). | *Chưa bắt đầu* | |

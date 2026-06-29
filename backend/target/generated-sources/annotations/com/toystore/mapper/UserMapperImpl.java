@@ -1,6 +1,7 @@
 package com.toystore.mapper;
 
-import com.toystore.dto.request.UserRegisterRequest;
+import com.toystore.dto.request.RegisterRequest;
+import com.toystore.dto.request.UpdateProfileRequest;
 import com.toystore.dto.response.UserResponse;
 import com.toystore.entity.User;
 import javax.annotation.processing.Generated;
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-06-29T15:17:55+0700",
+    date = "2026-06-29T15:18:41+0700",
     comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.46.100.v20260624-0231, environment: Java 21.0.11 (Eclipse Adoptium)"
 )
 @Component
@@ -36,7 +37,7 @@ public class UserMapperImpl implements UserMapper {
     }
 
     @Override
-    public User toEntity(UserRegisterRequest request) {
+    public User toEntity(RegisterRequest request) {
         if ( request == null ) {
             return null;
         }
@@ -48,5 +49,16 @@ public class UserMapperImpl implements UserMapper {
         user.phone( request.getPhone() );
 
         return user.build();
+    }
+
+    @Override
+    public void updateEntityFromRequest(UpdateProfileRequest request, User user) {
+        if ( request == null ) {
+            return;
+        }
+
+        user.setAvatarUrl( request.getAvatarUrl() );
+        user.setFullName( request.getFullName() );
+        user.setPhone( request.getPhone() );
     }
 }

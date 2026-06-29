@@ -1,6 +1,7 @@
 package com.toystore.mapper;
 
-import com.toystore.dto.request.UserRegisterRequest;
+import com.toystore.dto.request.RegisterRequest;
+import com.toystore.dto.request.UpdateProfileRequest;
 import com.toystore.dto.response.UserResponse;
 import com.toystore.entity.User;
 import javax.annotation.processing.Generated;
@@ -8,8 +9,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-06-25T13:33:54+0700",
-    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.46.0.v20260407-0427, environment: Java 21.0.10 (Eclipse Adoptium)"
+    date = "2026-06-29T15:20:04+0700",
+    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.46.100.v20260624-0231, environment: Java 21.0.11 (Eclipse Adoptium)"
 )
 @Component
 public class UserMapperImpl implements UserMapper {
@@ -22,21 +23,21 @@ public class UserMapperImpl implements UserMapper {
 
         UserResponse.UserResponseBuilder userResponse = UserResponse.builder();
 
-        userResponse.id( user.getId() );
+        userResponse.avatarUrl( user.getAvatarUrl() );
+        userResponse.createdAt( user.getCreatedAt() );
         userResponse.email( user.getEmail() );
         userResponse.fullName( user.getFullName() );
-        userResponse.phone( user.getPhone() );
-        userResponse.avatarUrl( user.getAvatarUrl() );
-        userResponse.role( user.getRole() );
+        userResponse.id( user.getId() );
         userResponse.isActive( user.getIsActive() );
-        userResponse.createdAt( user.getCreatedAt() );
+        userResponse.phone( user.getPhone() );
+        userResponse.role( user.getRole() );
         userResponse.updatedAt( user.getUpdatedAt() );
 
         return userResponse.build();
     }
 
     @Override
-    public User toEntity(UserRegisterRequest request) {
+    public User toEntity(RegisterRequest request) {
         if ( request == null ) {
             return null;
         }
@@ -48,5 +49,16 @@ public class UserMapperImpl implements UserMapper {
         user.phone( request.getPhone() );
 
         return user.build();
+    }
+
+    @Override
+    public void updateEntityFromRequest(UpdateProfileRequest request, User user) {
+        if ( request == null ) {
+            return;
+        }
+
+        user.setAvatarUrl( request.getAvatarUrl() );
+        user.setFullName( request.getFullName() );
+        user.setPhone( request.getPhone() );
     }
 }

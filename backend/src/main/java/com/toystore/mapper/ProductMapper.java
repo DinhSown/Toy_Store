@@ -19,7 +19,7 @@ import java.util.List;
 public abstract class ProductMapper {
 
     @Autowired
-    protected ObjectMapper objectMapper;
+    public ObjectMapper objectMapper;
 
     @Mapping(target = "categoryId", source = "category.id")
     @Mapping(target = "categoryName", source = "category.name")
@@ -36,7 +36,7 @@ public abstract class ProductMapper {
     public abstract Product toEntity(ProductRequest request);
 
     @Named("jsonToList")
-    protected List<String> jsonToList(String json) {
+    public List<String> jsonToList(String json) {
         if (json == null || json.isEmpty()) {
             return Collections.emptyList();
         }
@@ -48,7 +48,7 @@ public abstract class ProductMapper {
     }
 
     @Named("listToJson")
-    protected String listToJson(List<String> list) {
+    public String listToJson(List<String> list) {
         if (list == null || list.isEmpty()) {
             return "[]";
         }

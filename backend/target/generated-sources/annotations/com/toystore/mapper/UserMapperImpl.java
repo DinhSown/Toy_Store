@@ -1,7 +1,7 @@
 package com.toystore.mapper;
 
 import com.toystore.dto.request.RegisterRequest;
-import com.toystore.dto.request.UserRequest;
+import com.toystore.dto.request.UpdateProfileRequest;
 import com.toystore.dto.response.UserResponse;
 import com.toystore.entity.User;
 import javax.annotation.processing.Generated;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-06-28T15:37:12+0700",
+    date = "2026-06-29T15:12:58+0700",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 25.0.2 (Oracle Corporation)"
 )
 @Component
@@ -52,7 +52,7 @@ public class UserMapperImpl implements UserMapper {
     }
 
     @Override
-    public void updateEntityFromRequest(UserRequest request, User user) {
+    public void updateEntityFromRequest(UpdateProfileRequest request, User user) {
         if ( request == null ) {
             return;
         }

@@ -1,6 +1,7 @@
 D:\Code\Toy_Store\backend\src\main\java\com\toystore\config\CorsConfig.java
 D:\Code\Toy_Store\backend\src\main\java\com\toystore\controller\admin\AdminCategoryController.java
 D:\Code\Toy_Store\backend\src\main\java\com\toystore\controller\CategoryController.java
+D:\Code\Toy_Store\backend\src\main\java\com\toystore\controller\ProductController.java
 D:\Code\Toy_Store\backend\src\main\java\com\toystore\dto\request\CategoryRequest.java
 D:\Code\Toy_Store\backend\src\main\java\com\toystore\dto\request\LoginRequest.java
 D:\Code\Toy_Store\backend\src\main\java\com\toystore\dto\request\OrderItemRequest.java
@@ -8,7 +9,7 @@ D:\Code\Toy_Store\backend\src\main\java\com\toystore\dto\request\OrderRequest.ja
 D:\Code\Toy_Store\backend\src\main\java\com\toystore\dto\request\ProductRequest.java
 D:\Code\Toy_Store\backend\src\main\java\com\toystore\dto\request\RegisterRequest.java
 D:\Code\Toy_Store\backend\src\main\java\com\toystore\dto\request\ReviewRequest.java
-D:\Code\Toy_Store\backend\src\main\java\com\toystore\dto\request\UserRequest.java
+D:\Code\Toy_Store\backend\src\main\java\com\toystore\dto\request\UpdateProfileRequest.java
 D:\Code\Toy_Store\backend\src\main\java\com\toystore\dto\response\ApiResponse.java
 D:\Code\Toy_Store\backend\src\main\java\com\toystore\dto\response\AuthResponse.java
 D:\Code\Toy_Store\backend\src\main\java\com\toystore\dto\response\CategoryResponse.java

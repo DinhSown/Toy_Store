@@ -1,7 +1,7 @@
 package com.toystore.mapper;
 
 import com.toystore.dto.request.RegisterRequest;
-import com.toystore.dto.request.UserRequest;
+import com.toystore.dto.request.UpdateProfileRequest;
 import com.toystore.dto.response.UserResponse;
 import com.toystore.entity.User;
 import org.mapstruct.Mapper;
@@ -13,9 +13,9 @@ public interface UserMapper {
 
     UserResponse toResponse(User user);
 
-    @Mapping(target = "password", ignore = true) // Sẽ encode mật khẩu riêng ở Service
-    @Mapping(target = "role", ignore = true)     // Sẽ set mặc định hoặc gán ở Service
-    @Mapping(target = "isActive", ignore = true) // Sẽ set mặc định ở Service
+    @Mapping(target = "password", ignore = true)  // Encode mật khẩu riêng ở Service
+    @Mapping(target = "role", ignore = true)       // Set mặc định ở Service
+    @Mapping(target = "isActive", ignore = true)   // Set mặc định ở Service
     @Mapping(target = "avatarUrl", ignore = true)
     User toEntity(RegisterRequest request);
 
@@ -26,5 +26,5 @@ public interface UserMapper {
     @Mapping(target = "isActive", ignore = true)   // Trạng thái hoạt động không đổi ở profile update
     @Mapping(target = "createdAt", ignore = true)  // Audit field tự động cập nhật
     @Mapping(target = "updatedAt", ignore = true)  // Audit field tự động cập nhật
-    void updateEntityFromRequest(UserRequest request, @MappingTarget User user);
+    void updateEntityFromRequest(UpdateProfileRequest request, @MappingTarget User user);
 }

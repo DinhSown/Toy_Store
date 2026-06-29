@@ -9,7 +9,7 @@ Tài liệu này ghi nhận chi tiết tiến độ code theo từng tuần củ
 | Tuần | Nội dung công việc chính | Trạng thái | Ghi chú |
 | :--- | :--- | :---: | :--- |
 | **Tuần 1** | Khởi tạo dự án, JPA Entities, Database Migration, Global Infrastructure, DTOs & Mappers. | **Hoàn thành** | Đã test khởi động app & Flyway migration thành công. |
-| **Tuần 2** | CRUD Category & Product API (Không Auth). | **Đang thực hiện** | Hoàn thành Ngày 1, 2, 3 (Category Service + Controller & Product Repository + Service + Unit Tests). |
+| **Tuần 2** | CRUD Category & Product API (Không Auth). | **Đang thực hiện** | Hoàn thành Ngày 1→4 (Category Service + Controller, Product Repository + Service, ProductController public endpoints). |
 | **Tuần 3** | Authentication & Security (JWT, Authorization). | *Chưa bắt đầu* | |
 | **Tuần 4** | Shopping Cart & Order API (User). | *Chưa bắt đầu* | |
 | **Tuần 5** | Order Management API (Admin). | *Chưa bắt đầu* | |
@@ -97,6 +97,25 @@ backend/src/main/java/com/toystore/
   - Kiểm tra tránh chu kỳ lặp vòng khi chỉ định danh mục cha (`isDescendantOf`).
   - Đệ quy hủy kích hoạt (soft delete) toàn bộ cây con cháu khi danh mục cha bị vô hiệu hóa (`deactivateCategoryAndChildren`).
 - **[CategoryServiceTest.java](file:///d:/Code/Toy_Store/backend/src/test/java/com/toystore/service/CategoryServiceTest.java)**: Viết 8 unit tests phủ sóng đầy đủ các tình huống nghiệp vụ trên.
+
+### 2. Các File Đã Code trong Ngày 2 (Category Controller)
+- **[CategoryController.java](file:///d:/Code/Toy_Store/backend/src/main/java/com/toystore/controller/CategoryController.java)**: Cung cấp 3 endpoints public `GET /api/categories`, `GET /api/categories/{id}`, `GET /api/categories/slug/{slug}`.
+- **[AdminCategoryController.java](file:///d:/Code/Toy_Store/backend/src/main/java/com/toystore/controller/admin/AdminCategoryController.java)**: Cung cấp endpoints tạm public `POST`, `PUT`, `DELETE /api/admin/categories/{id}`.
+
+### 3. Các File Đã Code trong Ngày 3 (Product Repository & Service)
+- **[ProductRepository.java](file:///d:/Code/Toy_Store/backend/src/main/java/com/toystore/repository/ProductRepository.java)**: Viết custom queries lọc sản phẩm theo `categoryIds` (danh sách hỗ trợ lọc cả danh mục con), `brand`, `minPrice`, `maxPrice`, `isActive` và full-text search LIKE trên tên/mô tả/brand.
+- **[ProductService.java](file:///d:/Code/Toy_Store/backend/src/main/java/com/toystore/service/ProductService.java)**: Định nghĩa interface với các phương thức nghiệp vụ đầy đủ.
+- **[ProductServiceImpl.java](file:///d:/Code/Toy_Store/backend/src/main/java/com/toystore/service/impl/ProductServiceImpl.java)**: Triển khai đầy đủ nghiệp vụ bao gồm thu thập đệ quy ID danh mục con, validate slug trùng lặp, validate giá khuyến mãi không vượt giá gốc.
+
+### 4. Các File Đã Code trong Ngày 4 (Product Controller Public & Clean Code)
+- **[ProductController.java](file:///d:/Code/Toy_Store/backend/src/main/java/com/toystore/controller/ProductController.java)**: Cung cấp đầy đủ 5 endpoints public:
+  - `GET /api/products` — Phân trang + lọc đa chiều (categoryId, brand, minPrice, maxPrice, page, size, sort).
+  - `GET /api/products/{id}` — Chi tiết sản phẩm theo ID.
+  - `GET /api/products/slug/{slug}` — Chi tiết sản phẩm theo slug (SEO-friendly).
+  - `GET /api/products/search?keyword=` — Tìm kiếm full-text.
+  - `GET /api/products/featured` — Danh sách sản phẩm nổi bật.
+  - `GET /api/products/category/{categoryId}` — Sản phẩm theo danh mục (bao gồm cả danh mục con).
+- **Clean Code — Rename `UserRequest` → `UpdateProfileRequest`**: File `UserRequest.java` được đổi tên thành `UpdateProfileRequest.java` để phản ánh đúng mục đích sử dụng (dùng cho API `PUT /api/auth/profile` ở Tuần 6). `UserMapper.java` được cập nhật tương ứng.
 
 ---
 

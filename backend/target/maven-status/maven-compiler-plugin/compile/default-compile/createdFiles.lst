@@ -6,7 +6,6 @@ com\toystore\dto\response\OrderResponse.class
 com\toystore\entity\User$UserBuilder.class
 com\toystore\mapper\ProductMapper.class
 com\toystore\controller\admin\AdminCategoryController.class
-com\toystore\dto\request\UserRequest$UserRequestBuilder.class
 com\toystore\service\impl\CategoryServiceImpl.class
 com\toystore\dto\request\OrderItemRequest.class
 com\toystore\dto\response\ReviewResponse.class
@@ -20,7 +19,6 @@ com\toystore\exception\GlobalExceptionHandler.class
 com\toystore\dto\response\OrderItemResponse$OrderItemResponseBuilder.class
 com\toystore\mapper\OrderMapperImpl.class
 com\toystore\dto\request\LoginRequest$LoginRequestBuilder.class
-com\toystore\dto\request\UserRequest.class
 com\toystore\dto\response\ProductResponse.class
 com\toystore\dto\response\OrderItemResponse.class
 com\toystore\controller\CategoryController.class
